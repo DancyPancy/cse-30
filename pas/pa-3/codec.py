@@ -3,9 +3,9 @@ import numpy as np
 
 class Codec():
     
-    def __init__(self):
+    def __init__(self, delimiter = '#'):
         self.name = 'binary'
-        self.delimiter = '#'
+        self.delimiter = delimiter
 
     # convert text or numbers into binary form    
     def encode(self, text):
@@ -17,7 +17,7 @@ class Codec():
     # convert binary data into text
     def decode(self, data):
         binary = []        
-        for i in range(0,len(data),8):
+        for i in range(0, len(data), 8):
             byte = data[i: i+8]
             if byte == self.encode(self.delimiter):
                 break
@@ -29,25 +29,38 @@ class Codec():
 
 class CaesarCypher(Codec):
 
-    def __init__(self, shift=3):
+    def __init__(self, shift=3, delimiter = '#'):
         self.name = 'caesar'
-        self.delimiter = '#'  
+        self.delimiter = delimiter  
         self.shift = shift    
         self.chars = 256      # total number of characters
 
     # convert text into binary form
     # your code should be similar to the corresponding code used for Codec
     def encode(self, text):
-        data = ''
-        # your code goes here
-        return data
+        if type(text) == str:
+            return ''.join([format((ord(i)+self.shift) % 256, "08b") for i in text])
+        else:
+            print('Format error')
+
     
     # convert binary data into text
     # your code should be similar to the corresponding code used for Codec
     def decode(self, data):
+        binary = []        
+        for i in range(0, len(data), 8):
+            byte = data[i: i+8]
+            if byte == self.encode(self.delimiter):
+                break
+            binary.append(byte)
         text = ''
-        # your code goes here
-        return text
+        for byte in binary:
+            e_num = int(byte, 2)
+            if e_num < self.shift:
+                text += chr(256 - (self.shift-e_num))
+            else:
+                text += chr(e_num-self.shift) 
+        return text 
 
 # a helper class used for class HuffmanCodes that implements a Huffman tree
 class Node:

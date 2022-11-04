@@ -18,7 +18,7 @@ def main_menu():
             filein = input("Choose an image file:\n")
         if op == 'E':
             fileout = input("Choose an output image file:\n")
-            s.encode(filein,fileout, get_message(), get_codec())
+            s.encode(filein, fileout, get_message(), get_codec())
             s.print()
         elif op == 'D':
             s.decode(filein, get_codec())
