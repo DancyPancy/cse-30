@@ -1,0 +1,32 @@
+Welcome to the Hangman Game!
+Please choose a size of a word to be guessed [3 - 12, default any size]: The word size is set to 5.
+Please choose a number of lives [1 - 10, default 5]: You have 6 lives.
+Letters chosen: 
+__ __ __ __ __    lives: 6   OOOOOO
+Please chose a new letter > You guessed right!
+Letters chosen: E
+__ __ E __ __    lives: 6   OOOOOO
+Please chose a new letter > You guessed right!
+Letters chosen: E, A
+__ __ E A __    lives: 6   OOOOOO
+Please chose a new letter > You have already chosen this letter.
+Please chose a new letter > You guessed wrong, you lost one life.
+Letters chosen: E, A, S
+__ __ E A __    lives: 5   XOOOOO
+Please chose a new letter > You guessed wrong, you lost one life.
+Letters chosen: E, A, S, N
+__ __ E A __    lives: 4   XXOOOO
+Please chose a new letter > You guessed wrong, you lost one life.
+Letters chosen: E, A, S, N, T
+__ __ E A __    lives: 3   XXXOOO
+Please chose a new letter > You guessed right!
+Letters chosen: E, A, S, N, T, C
+C __ E A __    lives: 3   XXXOOO
+Please chose a new letter > You guessed right!
+Letters chosen: E, A, S, N, T, C, M
+C __ E A M    lives: 3   XXXOOO
+Please chose a new letter > You guessed right!
+Letters chosen: E, A, S, N, T, C, M, R
+C R E A M    lives: 3   XXXOOO
+Congratulations!!! You won! The word is CREAM
+Would you like to play again [Y/N]Goodbye!
