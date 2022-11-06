@@ -16,7 +16,6 @@ class Steganography():
 
     def encode(self, filein, fileout, message, codec):
         image = cv2.imread(filein)
-        print(image) # for debugging
         
         # calculate available bytes
         max_bytes = image.shape[0] * image.shape[1] * 3 // 8

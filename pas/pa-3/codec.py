@@ -73,11 +73,11 @@ class Node:
         
 class HuffmanCodes(Codec):
     
-    def __init__(self):
-        self.nodes = None
+    def __init__(self,  delimiter = '#'):
+        self.tree = None
         self.data = {}
         self.name = 'huffman'
-        self.delimiter = '#'
+        self.delimiter = delimiter
 
     # make a Huffman Tree    
     def make_tree(self, data):
@@ -107,40 +107,61 @@ class HuffmanCodes(Codec):
             nodes.remove(left)
             nodes.remove(right)
             nodes.append(root)
-        return nodes
+        return nodes[0]
 
     # traverse a Huffman tree
-    def traverse_tree(self, node, val):
+    def get_whole_tree(self, node, val, dict):
         next_val = val + node.code
         if(node.left):
-            self.traverse_tree(node.left, next_val)
+            self.get_whole_tree(node.left, next_val, dict)
         if(node.right):
-            self.traverse_tree(node.right, next_val)
+            self.get_whole_tree(node.right, next_val, dict)
         if(not node.left and not node.right):
-            print(f"{node.symbol}->{next_val}")
-            # this is for debugging
-            # you need to update this part of the code
-            # or rearrange it so it suits your need
+            dict[node.symbol] = next_val
+
+    def decode_from_tree(self, node, data):
+        if node.symbol == self.delimiter or len(data) == 0:
+            return ''
+        elif not node.left and not node.right:
+            return node.symbol + self.decode_from_tree(self.tree, data)
+        elif node.left and data[0] == node.left.code:
+            return self.decode_from_tree(node.left, data[1:])
+        elif node.right and data[0] == node.right.code:
+            return self.decode_from_tree(node.right, data[1:])
+
+
+
+    def create_dictionary(self, text):
+        freq_dict = {}
+
+        for char in text:
+            try:
+                freq_dict[char] += 1
+            except KeyError:
+                freq_dict[char] = 1
+        
+        return freq_dict
 
     # convert text into binary form
     def encode(self, text):
         data = ''
-        # your code goes here
-        # you need to make a tree
-        # and traverse it
+        self.tree = self.make_tree(self.create_dictionary(text))
+        char_key = {}
+        self.get_whole_tree(self.tree, '', char_key)
+
+        for char in text:
+            data += char_key[char]
+
         return data
 
     # convert binary data into text
     def decode(self, data):
-        text = ''
-        # your code goes here
-        # you need to traverse the tree
-        return text
+        return self.decode_from_tree(self.tree, data)
 
 # driver program for codec classes
 if __name__ == '__main__':
     text = 'hello'
-    #text = 'Casino Royale 10:30 Order martini'
+    # text = 'Casino Royale 10:30 Order martini'
     print('Original:', text)
 
     c = Codec()
