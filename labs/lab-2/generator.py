@@ -1,6 +1,4 @@
 
-from math import perm
-
 
 def permute(items_original):
     if (len(items_original) == 1) :
