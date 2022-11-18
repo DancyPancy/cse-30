@@ -1,26 +1,32 @@
-#
-# DO NOT FORGET TO ADD COMMENTS
-#
+# Code by: Jack Wong
+# Date: Thu Nov 17 2022
+# About: Stack class implements the Stack ADT
 
 class Stack:
     
     def __init__(self):
-        pass 
+        self.elements = [] 
 
     def isEmpty(self):
-        pass
+        return self.elements == []
 
     def push(self, item):
-        pass
+        self.elements.append(item)
 
     def pop(self):
-        pass
+        if self.elements == []:
+            return None
+        else:
+            return self.elements.pop()
     
     def peek(self):
-        pass
+        if self.elements == []:
+            return None
+        else:
+            return self.elements[len(self.elements) - 1]
 
     def size(self):
-        pass
+        return len(self.elements)
 
 # a driver program for class Stack
 
