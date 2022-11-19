@@ -52,13 +52,17 @@ def addButton(gui, entrybox, value):
 def clickButton(entrybox, value):
     # the function clickButton() is not implemented!!!
     if value == '=':
-        answer = '= ' + str(calculate(entrybox.get()))
-        entrybox.delete(0, 'end')
-        entrybox.insert(0, answer)
+        try:
+            answer = '= ' + str(calculate(entrybox.get()))
+            entrybox.delete(0, 'end')
+            entrybox.insert(0, answer)
+        except:
+            entrybox.delete(0, 'end')
+            entrybox.insert(0, 'ERROR')
     elif value == 'c':
         entrybox.delete(0, 'end')
     else:
-        if entrybox.get() == '' or entrybox.get()[0] == '=':
+        if entrybox.get() == '' or entrybox.get()[0] == '=' or entrybox.get()[0] == 'E':
             entrybox.delete(0, 'end')
         entrybox.insert('end', value)
     
