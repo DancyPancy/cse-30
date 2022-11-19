@@ -23,7 +23,7 @@ class Stack:
         if self.elements == []:
             return None
         else:
-            return self.elements[len(self.elements) - 1]
+            return self.elements[-1]
 
     def size(self):
         return len(self.elements)

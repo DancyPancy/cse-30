@@ -1,6 +1,6 @@
-#
-# DO NOT FORGET TO ADD COMMENTS
-#
+# Code by: Jack Wong
+# Date: Thu Nov 17 2022
+# About: Tree implements a binary tree and an expression tree to use to calculate a math expression
 
 from stack import Stack
 
@@ -19,19 +19,24 @@ class BinaryTree:
             self.leftChild = t
 
     def insertRight(self,newNode):
-        pass
+        if self.rightChild == None:
+            self.rightChild = BinaryTree(newNode)
+        else:
+            t = BinaryTree(newNode)
+            t.rightChild = self.rightChild
+            self.rightChild = t
 
     def getRightChild(self):
         return self.rightChild
 
     def getLeftChild(self):
-        pass
+        return self.leftChild
 
     def setRootVal(self,obj):
-        pass
+        self.key = obj
 
     def getRootVal(self):
-        pass
+        return self.key
 
     def __str__(self):
         s = f"{self.key}"
@@ -47,25 +52,82 @@ class BinaryTree:
 class ExpTree(BinaryTree):
 
     def make_tree(postfix):
-        pass
-    
+        if len(postfix) == 0:
+            return None
+        
+        s = Stack()
+        while len(postfix) > 0:
+            s.push(postfix.pop(0))
+            if s.peek() in '+-*/^':
+                t = ExpTree(s.pop())
+                t.rightChild = s.pop()
+                t.leftChild = s.pop()
+                s.push(t)
+        
+        return s.pop()
+     
     def preorder(tree):
         s = ''
-        pass
+        if type(tree) != type(ExpTree()):
+            s = tree
+        else:
+            s = tree.getRootVal()
+            s += ExpTree.preorder(tree.getLeftChild())
+            s += ExpTree.preorder(tree.getRightChild())
+
         return s
 
     def inorder(tree):
         s = ''
-        pass
+        if type(tree) != type(ExpTree()):
+            s = tree
+        else:
+            s += '('
+            s += ExpTree.inorder(tree.getLeftChild())
+            s += tree.getRootVal()
+            s += ExpTree.inorder(tree.getRightChild())
+            s += ')'
+
         return s
       
     def postorder(tree):
         s = ''
-        pass
+        if type(tree) != type(ExpTree()):
+            s = tree
+        else:
+            s += ExpTree.postorder(tree.getLeftChild())
+            s += ExpTree.postorder(tree.getRightChild())
+            s += tree.getRootVal()
+
         return s
 
+    def operate(lop, rop, op):
+        if op == '+':
+            return lop + rop
+        elif op == '-':
+            return lop - rop
+        elif op == '*':
+            return lop * rop
+        elif op == '/':
+            return lop / rop
+        elif op == '^':
+            return lop ** rop
+        else:
+            raise SyntaxError('SyntaxError: invalid operator type')
+
     def evaluate(tree):
-        pass
+        if type(tree) != type(ExpTree()):
+            try:
+                return float(tree)
+            except ValueError:
+                raise ValueError('ValueError: invalid operand type')
+        else:
+            return ExpTree.operate(
+                    ExpTree.evaluate(tree.getLeftChild()), 
+                    ExpTree.evaluate(tree.getRightChild()), 
+                    tree.getRootVal()
+                )
+        
             
     def __str__(self):
         return ExpTree.inorder(self)
