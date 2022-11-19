@@ -56,8 +56,8 @@ class ExpTree(BinaryTree):
             return None
         
         s = Stack()
-        while len(postfix) > 0:
-            s.push(postfix.pop(0))
+        for i in range(len(postfix)):
+            s.push(postfix[i])
             if s.peek() in '+-*/^':
                 t = ExpTree(s.pop())
                 t.rightChild = s.pop()
@@ -117,10 +117,7 @@ class ExpTree(BinaryTree):
 
     def evaluate(tree):
         if type(tree) != type(ExpTree()):
-            try:
-                return float(tree)
-            except ValueError:
-                raise ValueError('ValueError: invalid operand type')
+            return(float(tree))
         else:
             return ExpTree.operate(
                     ExpTree.evaluate(tree.getLeftChild()), 
