@@ -1,16 +1,18 @@
 # Code by: Jack Wong
 # Fri Nov 18 2022
 # About: a GUI calculator using tkinter
+
 from tkinter import *
+from calculator import calculate
 
 
 def calculator(gui):   
     # name the gui window
     gui.title("Calculator")
     # make a entry text box
-    entrybox = Entry(gui, width=36, borderwidth=5)
+    entrybox = Entry(gui, width=25, borderwidth=5)
     # position the entry text box in the gui window using the grid manager
-    entrybox.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+    entrybox.grid(row=0, column=0, columnspan=5, padx=10, pady=10)
     
     # create buttons: 1,2,3,4,5,6,7,8,9,0,+,-,*,/,c,= 
     b0 = addButton(gui,entrybox,'0')
@@ -29,23 +31,36 @@ def calculator(gui):
     b_div = addButton(gui,entrybox,'/')
     b_clr = addButton(gui,entrybox,'c')
     b_eq = addButton(gui,entrybox,'=')
+    b_pow = addButton(gui, entrybox, '^')
+    b_dot = addButton(gui, entrybox, '.')
+    b_rpar = addButton(gui, entrybox, ')')
+    b_lpar = addButton(gui, entrybox, '(')
 
     # add buttons to the grid
-    buttons =[ b7,    b8, b9,    b_clr, 
-               b4,    b5, b6,    b_sub, 
-               b1,    b2, b3,    b_add, 
-               b_mult,b0, b_div, b_eq ]
-    k = 4           
-    for i in range(k):
+    buttons =[ b7, b8,    b9,     b_pow,  b_clr,
+               b4, b5,    b6,     b_sub,  b_div,
+               b1, b2,    b3,     b_add,  b_mult,
+               b0, b_dot, b_lpar, b_rpar, b_eq]
+    k = 5           
+    for i in range(k-1):
         for j in range(k):
             buttons[i*k+j].grid(row=i+1, column=j, columnspan=1)
 
 def addButton(gui, entrybox, value):
-    return Button(gui, text=value, height=4, width=9, command = lambda: clickButton(entrybox, value))
+    return Button(gui, text=value, height=4, width=5, command = lambda: clickButton(entrybox, value))
 
 def clickButton(entrybox, value):
     # the function clickButton() is not implemented!!!
-    print(value) # for debugging
+    if value == '=':
+        answer = '= ' + str(calculate(entrybox.get()))
+        entrybox.delete(0, 'end')
+        entrybox.insert(0, answer)
+    elif value == 'c':
+        entrybox.delete(0, 'end')
+    else:
+        if entrybox.get() == '' or entrybox.get()[0] == '=':
+            entrybox.delete(0, 'end')
+        entrybox.insert('end', value)
     
 # main program
 # create the main window
