@@ -4,9 +4,10 @@ def selectionSort(items):
         m=0
         for j in range(1,i+1):          # find the maximum in the range
            if items[ j] > items[ m]:
-               m = j          
-        count += 1
-        print(count, items[m], items[i])
+               m = j   
+        if i != m:       
+            count += 1
+            print(count, items[m], items[i])
         items[ m], items[ i] = items[ i], items[ m]
 
 list_ = [54,26,93,17,77,31,44,55,20]
