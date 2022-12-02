@@ -38,19 +38,20 @@ class Fifteen:
             self.transpose(move_id, self.emptytile)
             self.emptytile = move_id
         else:
-            print(f'update: {move} is not a valid move')
+            print(f'update: {move} is not a valid move') 
         
     def transpose(self, i, j):
         self.tiles.swapVal(i, j)
 
+    def randmove(self):
+        return choice(self.tiles.getVertex(self.emptytile).getConnections())
+
     def shuffle(self, steps=100):
         for i in range(steps):
-            move_id = choice(self.tiles.getVertex(self.emptytile).getConnections())
-            self.transpose(move_id, self.emptytile)
-            self.emptytile = move_id
+            self.update(self.randmove())
         
     def is_valid_move(self, move_id):
-        # checks if the move tile and empty tile are neighbors
+        # checks if the move tile and empty tile are neighbors 
         if move_id in self.tiles.getVertex(self.emptytile).getConnections():
             return True
         else:
@@ -92,7 +93,15 @@ class Fifteen:
                 output += '\n'
         
         return output
+
+    def get_values(self):
+        output = []
+        for i in range(1, self.size**2+1):
+            output.append(self.tiles.getVertex(i).getValue())
+        return output
     
+    def __len__(self):
+        return self.size**2
 
 if __name__ == '__main__':
     
@@ -114,8 +123,8 @@ if __name__ == '__main__':
     
     '''You should be able to play the game if you uncomment the code below'''
 
-    game = Fifteen()
-    game.shuffle()
+    game = Fifteen(4)
+    # game.shuffle()
     game.draw()
     while True:
         move = input('Enter your move or q to quit: ')
@@ -125,8 +134,8 @@ if __name__ == '__main__':
             continue
         game.update(int(move))
         game.draw()
-        if game.is_solved():
-            break
+        # if game.is_solved():
+        #     break
     print('Game over!')
 
     
