@@ -21,7 +21,7 @@ def clickButton(labels, pos, game):
             gui.nametowidget(tile).configure(bg='#90EE90')
     else:
         for tile in labels.keys():
-            if tile == game.emptytile:
+            if tile == game.emptytile:       
                 backg = 'grey'
             else:
                 backg = '#C8A2C8'
